@@ -86,6 +86,13 @@ def profile(username):
     pass
 
 
+@app.route('/user')
+def show_user_by_parameters():
+    # http://localhost:5000/user?user=haya14busa
+    user = request.args.get('user', '')
+    return user
+
+
 @app.route('/learn/url_building')
 def learn_url_building():
     # with app.test_request_context():
