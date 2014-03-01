@@ -47,7 +47,9 @@ def hello():
 
 
 def main():
-    app.run()
+    # debug=True enable the server reload itself on code changes
+    # same as `app.debug = True`
+    app.run(debug=True)
 
 if __name__ == '__main__':
     main()
