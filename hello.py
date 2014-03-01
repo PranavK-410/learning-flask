@@ -101,6 +101,11 @@ def learn_url_building():
     return text
 
 
+@app.route('/learn')
+def learn():
+    return url_for('static', filename='style.css')
+
+
 def main():
     # debug=True enable the server reload itself on code changes
     # same as `app.debug = True`
