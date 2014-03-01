@@ -43,6 +43,7 @@ app = Flask(__name__)
 # to tell Flask what URL should trigger our function
 @app.route('/')
 def index():
+    # http://localhost:5000/
     return 'Index Page'
 
 
@@ -50,14 +51,9 @@ def index():
 @app.route('/hello')
 @app.route('/hello/<name>')
 def hello(name=None):
+    # http://localhost:5000/hello
+    # http://localhost:5000/hello/haya14busa
     return render_template('hello.html', name=name)
-
-
-@app.route('/user/<username>')
-def show_user_profile(username):
-    # Show the user profile for that user
-    # http://localhost:5000/user/haya14busa
-    return 'User {username}'.format(username=username)
 
 
 @app.route('/post/<int:post_id>')
@@ -75,15 +71,11 @@ def show_post(post_id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # http://localhost:5000/login
     if request.method == 'POST':
         return 'do_the_login()'
     else:
         return 'show_the_login_form()'
-
-
-@app.route('/user/<username>')
-def profile(username):
-    pass
 
 
 @app.route('/user')
@@ -91,6 +83,13 @@ def show_user_by_parameters():
     # http://localhost:5000/user?user=haya14busa
     user = request.args.get('user', '')
     return user
+
+
+@app.route('/user/<username>')
+def show_user_profile(username):
+    # Show the user profile for that user
+    # http://localhost:5000/user/haya14busa
+    return 'User {username}'.format(username=username)
 
 
 @app.route('/user/redirect')
@@ -103,16 +102,18 @@ def redirect_user_by_parameters():
 @app.route('/learn/url_building')
 def learn_url_building():
     # with app.test_request_context():
+    # http://localhost:5000/learn/url_building
     text = \
         '''
         url_for('index') : {index}<br>
         url_for('login') : {login}<br>
         url_for('login', next='/') : {login_next}<br>
-        url_for('profile', username='haya14busa') : {profile}<br>
+        url_for('show_user_profile', username='haya14busa') : {profile}<br>
         '''.format(index=url_for('index'),
                    login=url_for('login'),
                    login_next=url_for('login', next='/'),
-                   profile=url_for('profile', username='haya 14busa'),)
+                   profile=url_for('show_user_profile',
+                                   username='haya14busa'),)
     return text
 
 
