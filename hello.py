@@ -28,7 +28,7 @@
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
 '''
-from flask import Flask, url_for, request, render_template
+from flask import Flask, url_for, request, render_template, redirect
 
 ''' Create an instance of this class.
 The first argument is the name of the application's module or package.
@@ -91,6 +91,13 @@ def show_user_by_parameters():
     # http://localhost:5000/user?user=haya14busa
     user = request.args.get('user', '')
     return user
+
+
+@app.route('/user/redirect')
+def redirect_user_by_parameters():
+    # http://localhost:5000/user/redirect?user=haya14busa
+    user = request.args.get('user', '')
+    return redirect(url_for('hello', name=user))
 
 
 @app.route('/learn/url_building')
