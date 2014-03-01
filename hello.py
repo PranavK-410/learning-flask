@@ -42,6 +42,12 @@ app = Flask(__name__)
 # Use the `route()` decorator
 # to tell Flask what URL should trigger our function
 @app.route('/')
+def index():
+    return 'Index Page'
+
+
+# `route()` decorator is used to bind a function to a URL
+@app.route('/hello')
 def hello():
     return 'Happy Vimming!'
 
