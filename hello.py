@@ -52,6 +52,26 @@ def hello():
     return 'Happy Vimming!'
 
 
+@app.route('/user/<username>')
+def show_user_profile(username):
+    # Show the user profile for that user
+    # http://localhost:5000/user/haya14busa
+    return 'User {username}'.format(username=username)
+
+
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    # Show the post with the given id, the id is an integer
+    # The following converters exists
+    # -------------------------------------------------
+    # int   | accepts integers
+    # float | like `int` but for floating point values
+    # path  | like the default but also accepts slashes
+    # -------------------------------------------------
+    # http://localhost:5000/post/14
+    return 'Post {id}'.format(id=post_id)
+
+
 def main():
     # debug=True enable the server reload itself on code changes
     # same as `app.debug = True`
