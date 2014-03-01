@@ -28,7 +28,7 @@
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
 '''
-from flask import Flask, url_for
+from flask import Flask, url_for, request
 
 ''' Create an instance of this class.
 The first argument is the name of the application's module or package.
@@ -72,9 +72,12 @@ def show_post(post_id):
     return 'Post {id}'.format(id=post_id)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    pass
+    if request.method == 'POST':
+        return 'do_the_login()'
+    else:
+        return 'show_the_login_form()'
 
 
 @app.route('/user/<username>')
