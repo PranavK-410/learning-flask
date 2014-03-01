@@ -28,7 +28,7 @@
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
 '''
-from flask import Flask, url_for, request
+from flask import Flask, url_for, request, render_template
 
 ''' Create an instance of this class.
 The first argument is the name of the application's module or package.
@@ -48,8 +48,9 @@ def index():
 
 # `route()` decorator is used to bind a function to a URL
 @app.route('/hello')
-def hello():
-    return 'Happy Vimming!'
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', name=name)
 
 
 @app.route('/user/<username>')
