@@ -14,10 +14,25 @@ It seems Flask support Python3, but it recommend to use Python 2.7 instead.
 2. Template Engine: Jinja2 [Welcome | Jinja2 (The Python Template Engine)](http://jinja.pocoo.org/)
 
 ### virtualenv
+#### Install
 ```
 sudo pip install virtualenv
 virtualenv venv
+```
+
+#### Activate
+```
 source venv/bin/activate
 pip install Flask
+```
+
+#### Deactivate
+```
 deactivate
+```
+
+### Generate requirements & Install requirements
+```
+pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
