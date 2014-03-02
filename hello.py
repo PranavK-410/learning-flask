@@ -105,6 +105,7 @@ def redirect_user_by_parameters():
 def learn_url_building():
     # with app.test_request_context():
     # http://localhost:5000/learn/url_building
+    # url_for() looks for **function** instead of URL
     text = \
         '''
         url_for('index') : {index}<br>
@@ -141,7 +142,7 @@ def post_title():
 
 
 @app.route('/send_title', methods=['POST'])
-def sent_title():
+def send_title():
     # Get values with `request.form['name']`
     title = request.form['message']
     return redirect(url_for('post_title', title=title))
