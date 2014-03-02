@@ -25,6 +25,8 @@
 #
 #=============================================================================
 
+from random import choice
+
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
 '''
@@ -120,6 +122,12 @@ def learn_url_building():
 @app.route('/learn')
 def learn():
     return url_for('static', filename='style.css')
+
+
+@app.route('/random')
+def random():
+    # http://localhost:5000/random
+    return choice(['hayabusa', 'haya14busa', 'vim', 'Vim'])
 
 
 def main():
