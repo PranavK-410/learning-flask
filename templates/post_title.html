@@ -3,7 +3,7 @@
 <h1>Title: {{ title }}</h1>
 <hr>
 <h2>Change Title</h2>
-<form method="post" action="/send_title">
+<form method="post" action="{{ url_for('send_title') }}">
     <textarea type="text"
               name="message"
               placeholder="Input Title!"
