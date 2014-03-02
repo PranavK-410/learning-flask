@@ -132,17 +132,19 @@ def random():
 
 # Learn POST by Change Title Sample Application
 # http://localhost:5000/post_title
+# http://localhost:5000/post_title?title=Happy+Vimming!
 # See: http://kuroneko0208.hatenablog.com/entry/2013/11/27/043038
 @app.route('/post_title')
 def post_title():
-    return render_template('post_title.html', title='Change Title')
+    title = request.args.get('title', 'Change Title')
+    return render_template('post_title.html', title=title)
 
 
 @app.route('/send_title', methods=['POST'])
 def sent_title():
     # Get values with `request.form['name']`
-    title = request.form['message'] * 10
-    return render_template('post_title.html', title=title)
+    title = request.form['message']
+    return redirect(url_for('post_title', title=title))
 
 
 def main():

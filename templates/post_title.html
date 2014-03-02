@@ -5,10 +5,13 @@
     <title>{{ title }}</title>
 </head>
 <body>
+    <h1>Title: {{ title }}</h1>
+    <hr>
     <h2>Change Title</h2>
     <form method="post" action="/send_title">
         <textarea type="text" name="message" placeholder="Input Title!"></textarea>
         <input type="submit" value="Send">
     </form>
+
 </body>
 </html>
