@@ -46,7 +46,8 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # http://localhost:5000/
-    return 'Index Page'
+    # return 'Index Page'
+    return render_template('index.html', title='Learning Flask')
 
 
 # `route()` decorator is used to bind a function to a URL
@@ -120,15 +121,16 @@ def learn_url_building():
     return text
 
 
-@app.route('/learn')
-def learn():
+@app.route('/static_file')
+def static_file():
     return url_for('static', filename='style.css')
 
 
 @app.route('/random')
 def random():
     # http://localhost:5000/random
-    return choice(['hayabusa', 'haya14busa', 'vim', 'Vim'])
+    return choice([str(i) for i in range(1000)])
+    # return choice(list(map((lambda x: str(x)), range(1000))))
 
 
 # Learn POST by Change Title Sample Application

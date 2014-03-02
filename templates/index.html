@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul>
+    <li><a href="{{ url_for('hello') }}">{{ url_for('hello') }}</a></li>
+    <li><a href="{{ url_for('hello', name='haya14busa') }}">{{ url_for('hello', name='haya14busa') }}</a></li>
+    <li><a href="{{ url_for('show_post', post_id='14') }}">{{ url_for('show_post', post_id='14') }}</a></li>
+    <li><a href="{{ url_for('login') }}">{{ url_for('login') }}</a></li>
+    <li><a href="{{ url_for('show_user_by_parameters') + '?user=haya14busa' }}">{{ url_for('show_user_by_parameters') + '?user=haya14busa' }}</a></li>
+    <li><a href="{{ url_for('show_user_profile', username='haya14busa') }}">{{ url_for('show_user_profile', username='haya14busa') }}</a></li>
+    <li><a href="{{ url_for('redirect_user_by_parameters') + '?user=haya14busa' }}">{{ url_for('redirect_user_by_parameters') + '?user=haya14busa' }}</a></li>
+    <li><a href="{{ url_for('learn_url_building') }}">{{ url_for('learn_url_building') }}</a></li>
+    <li><a href="{{ url_for('static_file') }}">{{ url_for('static_file') }}</a></li>
+    <li><a href="{{ url_for('random') }}">{{ url_for('random') }}</a></li>
+
+    <li><a href="{{ url_for('post_title') }}">{{ url_for('post_title') }}</a></li>
+</ul>
+{% endblock %}
