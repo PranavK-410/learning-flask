@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
-    <h1>Title: {{ title }}</h1>
-    <hr>
-    <h2>Change Title</h2>
-    <form method="post" action="/send_title">
-        <textarea type="text" name="message" placeholder="Input Title!"></textarea>
-        <input type="submit" value="Send">
-    </form>
-
-</body>
-</html>
+{% extends "layout.html" %}
+{% block body %}
+<h1>Title: {{ title }}</h1>
+<hr>
+<h2>Change Title</h2>
+<form method="post" action="/send_title">
+    <textarea type="text"
+              name="message"
+              placeholder="Input Title!"
+              rows="3"
+              cols="80"
+    ></textarea>
+    <input type="submit" value="Send"><input type="reset" value="Reset">
+</form>
+{% endblock %}
