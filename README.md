@@ -36,3 +36,25 @@ deactivate
 pip freeze > requirements.txt
 pip install -r requirements.txt
 ```
+
+### Deploy to Heroku on Ubuntu
+
+#### 1. Install heroku command-line tools
+> `wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh`
+> https://toolbelt.heroku.com/
+
+#### 2. Login
+```
+heroku login
+```
+
+#### 3. Create
+```
+heroku create
+```
+
+#### 4. Deploy!
+```
+heroku keys:add ~/.ssh/id_rsa.pub
+git push heroku master
+```
