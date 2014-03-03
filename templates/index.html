@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
+<h1>{{ title }}</h1>
 <ul>
     <li><a href="{{ url_for('hello') }}">{{ url_for('hello') }}</a></li>
     <li><a href="{{ url_for('hello', name='haya14busa') }}">{{ url_for('hello', name='haya14busa') }}</a></li>
