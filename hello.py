@@ -153,7 +153,8 @@ def send_title():
 def main():
     # debug=True enable the server reload itself on code changes
     # same as `app.debug = True`
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run()
 
 if __name__ == '__main__':
     main()
