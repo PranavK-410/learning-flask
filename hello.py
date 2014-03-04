@@ -30,6 +30,11 @@ from nltk.corpus import stopwords
 # from nltk import tokenize
 from nltk import stem
 
+from pymongo import Connection
+from pymongo.errors import ConnectionFailure
+import os
+from urlparse import urlsplit
+
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
 '''
@@ -158,11 +163,12 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-class NTLK:
+class NLTK:
     def __init__(self):
         self.stopwords = stopwords.words('english')
         self._lancaster = stem.LancasterStemmer()
         self._porter = stem.PorterStemmer()
+        self._lemmatizer = stem.WordNetLemmatizer()
 
     def lancaster_stemmer(self, word):
         return self._lancaster.stem(word)
@@ -170,7 +176,10 @@ class NTLK:
     def porter_stemmer(self, word):
         return self._porter.stem(word)
 
-n = NTLK()
+    def lemmatizer(self, word):
+        return self._lemmatizer.lemmatize(word)
+
+n = NLTK()
 
 
 @app.route('/nltk/stopwords')
@@ -194,6 +203,48 @@ def send_word_stem():
     # Get values with `request.form['name']`
     word = request.form['message']
     return redirect(url_for('show_stem', word=word))
+
+
+#========================================
+# MongoDB
+def connect2mongodb(db):
+    MONGO_URL = os.environ.get('MONGOHQ_URL')
+    try:
+        if MONGO_URL:
+            c = Connection(host=MONGO_URL, port=27017)
+            parsed = urlsplit(MONGO_URL)
+            db_name = parsed.path[1:]
+
+            # Get your DB
+            return c[db_name]
+        else:
+            c = Connection(host='localhost', port=27017)
+        print('Connected successfully')
+    except ConnectionFailure, e:
+        print(e)
+    return c[db]
+
+
+def searchMongo(dbh, searchword, field):
+    # db = connect2mongodb('mydict')
+    return dbh.words.find_one({field: searchword}, {'alc_etm.unum': 1})
+
+
+@app.route('/mongodb')
+def mongodb():
+    db = connect2mongodb('mydict')
+    aio_url_format = 'http://home.alc.co.jp/db/owa/etm_sch?unum={unum}&stg=2'
+    word_link = '<a href="{url}" target="_blank">{word}</a>'
+    word = request.args.get('word', '')
+    word_db = (searchMongo(db, word, 'lemma') or
+               searchMongo(db, n.lemmatizer(word), 'lemma') or
+               searchMongo(db, n.lancaster_stemmer(word), 'stem') or
+               searchMongo(db, n.porter_stemmer(word), 'stem'))
+    if word_db:
+        word_url = aio_url_format.format(unum=word_db['alc_etm']['unum'])
+        return word_link.format(url=word_url, word=word)
+    else:
+        return 'Not found'
 
 
 def main():
