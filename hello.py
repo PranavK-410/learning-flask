@@ -151,6 +151,9 @@ def send_title():
     return redirect(url_for('post_title', title=title))
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 @app.route('/nltk/stopwords')
 def show_stopwords():
     return str(stopwords.words('english'))
