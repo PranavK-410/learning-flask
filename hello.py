@@ -208,21 +208,18 @@ def send_word_stem():
 #========================================
 # MongoDB
 def connect2mongodb(db):
-    MONGO_URL = os.environ.get('MONGOHQ_URL')
-    try:
-        if MONGO_URL:
-            c = Connection(host=MONGO_URL, port=27017)
-            parsed = urlsplit(MONGO_URL)
-            db_name = parsed.path[1:]
+    MONGO_URL = os.environ.get('MONGOHQ_URL', None)
+    if MONGO_URL:
+        # For heroku
+        c = Connection(host=MONGO_URL, port=27017)
+        parsed = urlsplit(MONGO_URL)
+        db_name = parsed.path[1:]
 
-            # Get your DB
-            return c[db_name]
-        else:
-            c = Connection(host='localhost', port=27017)
-        print('Connected successfully')
-    except ConnectionFailure, e:
-        print(e)
-    return c[db]
+        # Get your DB
+        return c[db_name]
+    else:
+        c = Connection(host='localhost', port=27017)
+        return c[db]
 
 
 def searchMongo(dbh, searchword, field):
@@ -250,7 +247,7 @@ def mongodb():
 def main():
     # app.run(debug=True) enable the server reload itself on code changes
     # same as `app.debug = True`
-    # app.debug = True
+    app.debug = True
     app.run()
 
 if __name__ == '__main__':
