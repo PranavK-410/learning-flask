@@ -249,7 +249,7 @@ def mongodb():
             return word_link.format(url=word_url, word=word)
         else:
             return 'Not found'
-    except Exception, e:
+    except Exception as e:
         return str(e)
 
 
