@@ -86,3 +86,38 @@ import nltk
 nltk.download()
 # Install to ./nltk_data directory
 ```
+
+## MongoDB
+```
+heroku addons:add mongohq
+heroku config
+-> MONGOHQ_URL => mongodb://heroku:<password>@<hostname>.mongohq.com:<port_number>/<database_name>
+```
+
+### Upload local mongodb database to heroku
+```
+mongodump -h <local_host>:<local_port> -d <local_database_name> -o <dump_db_path>
+mongorestore -h <hostname>.mongohq.com:<port_number> -d <database_name> -u heroku -p <password>  <dump_db_path>/<local_database_name>
+```
+
+### Sample code on Python3
+sample.py
+```
+import os
+from urllib.parse import urlsplit
+
+def connect2mongodb(db):
+    MONGO_URL = os.environ.get('MONGOHQ_URL', None)
+    if MONGO_URL:
+        # For heroku
+        c = Connection(host=MONGO_URL, port=27017)
+        parsed = urlsplit(MONGO_URL)
+        db_name = parsed.path[1:]
+
+        # Get your DB
+        return c[db_name]
+    else:
+        c = Connection(host='localhost', port=27017)
+        return c[db]
+```
+
