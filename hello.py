@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # FILE: hello.py
 # AUTHOR: haya14busa
@@ -33,7 +33,7 @@ from nltk import stem
 from pymongo import Connection
 # from pymongo.errors import ConnectionFailure
 import os
-from urlparse import urlsplit
+from urllib.parse import urlsplit
 
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
