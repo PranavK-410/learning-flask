@@ -27,6 +27,8 @@
 
 from random import choice
 from nltk.corpus import stopwords
+# from nltk import tokenize
+from nltk import stem
 
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
@@ -154,9 +156,44 @@ def send_title():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+class NTLK:
+    def __init__(self):
+        self.stopwords = stopwords.words('english')
+        self._lancaster = stem.LancasterStemmer()
+        self._porter = stem.PorterStemmer()
+
+    def lancaster_stemmer(self, word):
+        return self._lancaster.stem(word)
+
+    def porter_stemmer(self, word):
+        return self._porter.stem(word)
+
+n = NTLK()
+
+
 @app.route('/nltk/stopwords')
 def show_stopwords():
-    return str(stopwords.words('english'))
+    return str(n.stopwords)
+
+
+@app.route('/nltk/stemmer')
+def show_stem():
+    word = request.args.get('word', '')
+    lancaster_stem = n.lancaster_stemmer(word)
+    porter_stem = n.porter_stemmer(word)
+    return render_template('stemmer.html',
+                           word=word,
+                           lancaster_stem=lancaster_stem,
+                           porter_stem=porter_stem,)
+
+
+@app.route('/send_word_stem', methods=['POST'])
+def send_word_stem():
+    # Get values with `request.form['name']`
+    word = request.form['message']
+    return redirect(url_for('show_stem', word=word))
 
 
 def main():

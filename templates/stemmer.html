@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %} NLTK: Stemming {% endblock %}
+{% block body %}
+<h1> NLTK: Stemming </h1>
+<hr>
+<form method="post" action="{{ url_for('send_word_stem') }}">
+    <input type="text" name="message" value="{{ word }}">
+    <input type="submit" value="Send"><input type="reset" value="Reset">
+</form>
+<div>
+    <p>Word: {{ word }}</p>
+    <p>Lancaster: {{ lancaster_stem }}</p>
+    <p>Poerter: {{ porter_stem }}</p>
+</div>
+{% endblock %}

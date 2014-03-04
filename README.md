@@ -80,7 +80,9 @@ nltk -> ./nltk-3.0a3/
 ```
 
 ```
-heroku run python
+mkdir ./nltk_data
+python
 import nltk
 nltk.download()
+# Install to ./nltk_data directory
 ```
