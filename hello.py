@@ -26,7 +26,6 @@
 #=============================================================================
 
 from random import choice
-import nltk
 from nltk.corpus import stopwords
 
 ''' Import the Flask class.
@@ -154,8 +153,7 @@ def send_title():
 
 @app.route('/nltk/stopwords')
 def show_stopwords():
-    return str(nltk.data.path)
-    # return str(stopwords.words('english'))
+    return str(stopwords.words('english'))
 
 
 def main():
