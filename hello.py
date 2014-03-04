@@ -232,21 +232,25 @@ def searchMongo(dbh, searchword, field):
 
 @app.route('/mongodb')
 def mongodb():
-    db = connect2mongodb('mydict')
-    if not db:
-        return 'Could not connect to database'
-    aio_url_format = 'http://home.alc.co.jp/db/owa/etm_sch?unum={unum}&stg=2'
-    word_link = '<a href="{url}" target="_blank">{word}</a>'
-    word = request.args.get('word', '')
-    word_db = (searchMongo(db, word, 'lemma') or
-               searchMongo(db, n.lemmatizer(word), 'lemma') or
-               searchMongo(db, n.lancaster_stemmer(word), 'stem') or
-               searchMongo(db, n.porter_stemmer(word), 'stem'))
-    if word_db:
-        word_url = aio_url_format.format(unum=word_db['alc_etm']['unum'])
-        return word_link.format(url=word_url, word=word)
-    else:
-        return 'Not found'
+    try:
+        db = connect2mongodb('mydict')
+        if not db:
+            return 'Could not connect to database'
+        aio_url_format = \
+            'http://home.alc.co.jp/db/owa/etm_sch?unum={unum}&stg=2'
+        word_link = '<a href="{url}" target="_blank">{word}</a>'
+        word = request.args.get('word', '')
+        word_db = (searchMongo(db, word, 'lemma') or
+                   searchMongo(db, n.lemmatizer(word), 'lemma') or
+                   searchMongo(db, n.lancaster_stemmer(word), 'stem') or
+                   searchMongo(db, n.porter_stemmer(word), 'stem'))
+        if word_db:
+            word_url = aio_url_format.format(unum=word_db['alc_etm']['unum'])
+            return word_link.format(url=word_url, word=word)
+        else:
+            return 'Not found'
+    except Exception, e:
+        return str(e)
 
 
 def main():
