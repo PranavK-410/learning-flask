@@ -31,7 +31,7 @@ from nltk.corpus import stopwords
 from nltk import stem
 
 from pymongo import Connection
-from pymongo.errors import ConnectionFailure
+# from pymongo.errors import ConnectionFailure
 import os
 from urlparse import urlsplit
 
@@ -208,18 +208,21 @@ def send_word_stem():
 #========================================
 # MongoDB
 def connect2mongodb(db):
-    MONGO_URL = os.environ.get('MONGOHQ_URL', None)
-    if MONGO_URL:
-        # For heroku
-        c = Connection(host=MONGO_URL, port=27017)
-        parsed = urlsplit(MONGO_URL)
-        db_name = parsed.path[1:]
+    try:
+        MONGO_URL = os.environ.get('MONGOHQ_URL', None)
+        if MONGO_URL:
+            # For heroku
+            c = Connection(host=MONGO_URL, port=27017)
+            parsed = urlsplit(MONGO_URL)
+            db_name = parsed.path[1:]
 
-        # Get your DB
-        return c[db_name]
-    else:
-        c = Connection(host='localhost', port=27017)
-        return c[db]
+            # Get your DB
+            return c[db_name]
+        else:
+            c = Connection(host='localhost', port=27017)
+            return c[db]
+    except:
+        return None
 
 
 def searchMongo(dbh, searchword, field):
@@ -230,6 +233,8 @@ def searchMongo(dbh, searchword, field):
 @app.route('/mongodb')
 def mongodb():
     db = connect2mongodb('mydict')
+    if not db:
+        return 'Could not connect to database'
     aio_url_format = 'http://home.alc.co.jp/db/owa/etm_sch?unum={unum}&stg=2'
     word_link = '<a href="{url}" target="_blank">{word}</a>'
     word = request.args.get('word', '')
@@ -247,7 +252,7 @@ def mongodb():
 def main():
     # app.run(debug=True) enable the server reload itself on code changes
     # same as `app.debug = True`
-    app.debug = True
+    # app.debug = True
     app.run()
 
 if __name__ == '__main__':
