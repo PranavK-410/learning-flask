@@ -58,3 +58,9 @@ heroku create
 heroku keys:add ~/.ssh/id_rsa.pub
 git push heroku master
 ```
+
+#### 5. Specifying a Python Runtime
+runtime.txt
+```
+python-3.3.4
+```
