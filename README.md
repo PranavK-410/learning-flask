@@ -64,3 +64,23 @@ runtime.txt
 ```
 python-3.3.4
 ```
+
+## NLTK
+```
+wget http://nltk.org/nltk3-alpha/nltk-3.0a3.zip
+unzip nltk-3.0a3.zip
+cd nltk-3.0a3
+python setup.py install
+pip freeze > requirements.txt
+```
+
+requirements.txt
+```
+nltk -> ./nltk-3.0a3/
+```
+
+```
+heroku run python
+import nltk
+nltk.download()
+```
