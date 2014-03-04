@@ -240,13 +240,20 @@ def mongodb():
             'http://home.alc.co.jp/db/owa/etm_sch?unum={unum}&stg=2'
         word_link = '<a href="{url}" target="_blank">{word}</a>'
         word = request.args.get('word', '')
+        redirect_ = request.args.get('redirect', 0)
         word_db = (searchMongo(db, word, 'lemma') or
                    searchMongo(db, n.lemmatizer(word), 'lemma') or
-                   searchMongo(db, n.lancaster_stemmer(word), 'stem') or
-                   searchMongo(db, n.porter_stemmer(word), 'stem'))
+                   searchMongo(db, n.porter_stemmer(word), 'lemma') or
+                   searchMongo(db, n.porter_stemmer(word), 'stem') or
+                   searchMongo(db, n.lancaster_stemmer(word), 'stem'))
         if word_db:
             word_url = aio_url_format.format(unum=word_db['alc_etm']['unum'])
-            return word_link.format(url=word_url, word=word)
+            if redirect_:
+                # http://localhost:5000/mongodb?word=connect&redirect=1
+                return redirect(word_url)
+            else:
+                # http://localhost:5000/mongodb?word=connect
+                return word_link.format(url=word_url, word=word)
         else:
             return 'Not found'
     except Exception as e:
