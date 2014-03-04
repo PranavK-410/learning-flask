@@ -26,6 +26,7 @@
 #=============================================================================
 
 from random import choice
+from nltk.corpus import stopwords
 
 ''' Import the Flask class.
 An Instance of this class will be our WSGI application
@@ -150,10 +151,15 @@ def send_title():
     return redirect(url_for('post_title', title=title))
 
 
+@app.route('/nltk/stopwords')
+def show_stopwords():
+    return str(stopwords.words('english'))
+
+
 def main():
-    # debug=True enable the server reload itself on code changes
+    # app.run(debug=True) enable the server reload itself on code changes
     # same as `app.debug = True`
-    # app.run(debug=True)
+    # app.debug = True
     app.run()
 
 if __name__ == '__main__':
